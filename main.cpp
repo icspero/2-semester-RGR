@@ -2,6 +2,7 @@
 #include "CodeWord.h"
 #include "MagicSquare.h"
 #include "Hughes.h"
+#include "startMenu.h"
 #include <cstdlib>
 #include <windows.h>
 #include <locale.h>
@@ -15,31 +16,49 @@ unsigned int simpleHash(const string& str) {
 }
 
 int main() {
-    SetConsoleCP(65001);
-    SetConsoleOutputCP(65001);
-    setlocale(LC_ALL, ".UTF8");
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
 
     int hash = 996;
     string password;
-    cout << "Р’РІРµРґРёС‚Рµ РїР°СЂРѕР»СЊ: ";
+    cout << "Введите пароль: ";
     cin >> password;
 
     while (true) {
         if (simpleHash(password) == hash) {
-            cout << "URAAA" << endl;
             break;
         } else {
-			cout << "РќРµРІРµСЂРЅС‹Р№ РїР°СЂРѕР»СЊ, РїРѕРїСЂРѕР±СѓР№С‚Рµ СЃРЅРѕРІР°: ";
+			cout << "Неверный пароль, попробуйте снова: ";
 			cin >> password;
 		}
     }
 
     system("cls");
 
-    while (true) {
-        int p;
-        cout << "HAHAH: ";
-        cin >> p;
-        system("cls");
-    }
+	bool isTrue = 1;
+	while (isTrue) {
+		char method = mainMenu(); // получение команды пользователя
+		system("cls");
+
+		if (method == '4') {
+			isTrue = 0; 
+			break; 
+		}
+
+		char action = encryptOrDecrypt();
+		system("cls");
+
+		string message = getMessage(action);
+		system("cls");
+
+		if (method == '1') {
+			hughes(action, message);
+		}
+        //else if (method == '2') {
+			//callCaesar(action, message);
+
+		//}else {
+			//callPlayfair(action, message);
+		//}
+	}
 }

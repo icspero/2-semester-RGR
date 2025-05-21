@@ -1,12 +1,12 @@
 #include "MagicSquare.h"
 
-// Р¤СѓРЅРєС†РёСЏ РґР»СЏ РѕРїСЂРµРґРµР»РµРЅРёСЏ РїРѕСЂСЏРґРєР° РєРІР°РґСЂР°С‚Р°
+// Функция для определения порядка квадрата
 int defOfOrder(string& mes) { 
     int size_m = mes.size();
     double n = sqrt(size_m);
     int res = static_cast<int>(ceil(n));
 
-    if (res % 2 == 0) { // РґРµР»Р°РµРј РєРІР°РґСЂР°С‚ РЅРµС‡С‘С‚РЅС‹Рј
+    if (res % 2 == 0) { // делаем квадрат нечётным
         res += 1;
     }
 
@@ -53,24 +53,24 @@ void display(vector<vector<int>>& square) {
 }
 
 string encryptMessage(const vector<vector<int>>& square, string& message, int n) {
-    // Р”РѕРїРѕР»РЅСЏРµРј СЃРѕРѕР±С‰РµРЅРёРµ РїСЂРѕР±РµР»Р°РјРё РґРѕ РґР»РёРЅС‹ n^2
+    // Дополняем сообщение пробелами до длины n^2
     int blockSize = n * n;
     if ((int)message.length() < blockSize) {
         message.append(blockSize - message.length(), ' ');
     }
 
-    // РЎРѕР·РґР°РµРј РјР°С‚СЂРёС†Сѓ СЃС‚СЂРѕРє РґР»СЏ Р·Р°С€РёС„СЂРѕРІР°РЅРЅРѕРіРѕ СЃРѕРѕР±С‰РµРЅРёСЏ
+    // Создаем матрицу строк для зашифрованного сообщения
     vector<vector<string>> encVec(n, vector<string>(n, " "));
 
-    // Р—Р°РїРѕР»РЅСЏРµРј encVec РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ РєРІР°РґСЂР°С‚РѕРј
+     // Заполняем encVec в соответствии с квадратом
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
-            int pos = square[i][j];  // РїРѕР·РёС†РёСЏ Р±СѓРєРІС‹ РІ СЃРѕРѕР±С‰РµРЅРёРё (РѕС‚ 1 РґРѕ n^2)
+            int pos = square[i][j];  // позиция буквы в сообщении (от 1 до n^2)
             encVec[i][j] = string(1, message[pos - 1]);
         }
     }
 
-    // Р¤РѕСЂРјРёСЂСѓРµРј РёС‚РѕРіРѕРІСѓСЋ СЃС‚СЂРѕРєСѓ РёР· encVec
+    // Формируем итоговую строку из encVec
     string cipher = "";
     for (const auto& row : encVec) {
         for (const auto& ch : row) {
@@ -85,14 +85,14 @@ string decryptMessage(const vector<vector<int>>& square, string& cipher, int n) 
     vector<vector<char>> tempMatrix(n, vector<char>(n));
     int index = 0;
 
-    // Р—Р°РїРѕР»РЅСЏРµРј РјР°С‚СЂРёС†Сѓ С€РёС„СЂРѕС‚РµРєСЃС‚Р°
+    // Заполняем матрицу шифротекста
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
             tempMatrix[i][j] = cipher[index++];
         }
     }
 
-    // Р’РѕСЃСЃС‚Р°РЅР°РІР»РёРІР°РµРј РёСЃС…РѕРґРЅРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ РїРѕ РїРѕСЂСЏРґРєСѓ РёР· РјР°РіРёС‡РµСЃРєРѕРіРѕ РєРІР°РґСЂР°С‚Р°
+    // Восстанавливаем исходное сообщение по порядку из магического квадрата
     vector<char> message(n * n);
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
@@ -103,7 +103,7 @@ string decryptMessage(const vector<vector<int>>& square, string& cipher, int n) 
 
     string result(message.begin(), message.end());
 
-    // РќР°С…РѕРґРёРј "##" Рё РѕР±СЂРµР·Р°РµРј РІСЃС‘ РїРѕСЃР»Рµ РЅРµРіРѕ
+    // Находим "##" и обрезаем всё после него
     size_t endPos = result.find("##");
     if (endPos != string::npos) {
         result = result.substr(0, endPos);
