@@ -1,4 +1,5 @@
 #include "MagicSquare.h"
+#include "startMenu.h"
 
 // Функция для определения порядка квадрата
 int defOfOrder(string& mes) { 
@@ -43,26 +44,35 @@ vector<vector<int>> filligTheSquare(vector<vector<int>>& square, int& n) {
     return square;
 }
 
-void display(vector<vector<int>>& square) {
-    for (auto i : square) {
-        for (int j : i) {
-            cout << j << " ";
+void printMatrix(const vector<vector<int>>& matrix) {
+    // найти максимальную ширину элемента
+    int maxWidth = 0;
+    for (const auto& row : matrix) {
+        for (int elem : row) {
+            int len = to_string(elem).size();
+            if (len > maxWidth) maxWidth = len;
+        }
+    }
+
+    for (const auto& row : matrix) {
+        for (int elem : row) {
+            cout << setw(maxWidth + 1) << elem; // +1 для пробела между колонками
         }
         cout << endl;
     }
 }
 
 string encryptMessage(const vector<vector<int>>& square, string& message, int n) {
-    // Дополняем сообщение пробелами до длины n^2
+    // дополняем сообщение пробелами до длины n^2
     int blockSize = n * n;
     if ((int)message.length() < blockSize) {
         message.append(blockSize - message.length(), ' ');
     }
 
-    // Создаем матрицу строк для зашифрованного сообщения
+    // создаем матрицу строк для зашифрованного сообщения
     vector<vector<string>> encVec(n, vector<string>(n, " "));
 
-     // Заполняем encVec в соответствии с квадратом
+     // заполняем encVec в соответствии с квадратом
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
             int pos = square[i][j];  // позиция буквы в сообщении (от 1 до n^2)
@@ -70,7 +80,7 @@ string encryptMessage(const vector<vector<int>>& square, string& message, int n)
         }
     }
 
-    // Формируем итоговую строку из encVec
+    // формируем итоговую строку из encVec
     string cipher = "";
     for (const auto& row : encVec) {
         for (const auto& ch : row) {
@@ -85,25 +95,25 @@ string decryptMessage(const vector<vector<int>>& square, string& cipher, int n) 
     vector<vector<char>> tempMatrix(n, vector<char>(n));
     int index = 0;
 
-    // Заполняем матрицу шифротекста
+    // заполняем матрицу шифротекста
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
             tempMatrix[i][j] = cipher[index++];
         }
     }
 
-    // Восстанавливаем исходное сообщение по порядку из магического квадрата
+    // восстанавливаем исходное сообщение по порядку из магического квадрата
     vector<char> message(n * n);
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
-            int pos = square[i][j]; // РїРѕР·РёС†РёСЏ РѕС‚ 1 РґРѕ n^2
+            int pos = square[i][j];
             message[pos - 1] = tempMatrix[i][j];
         }
     }
 
     string result(message.begin(), message.end());
 
-    // Находим "##" и обрезаем всё после него
+    // находим "##" и обрезаем всё после него
     size_t endPos = result.find("##");
     if (endPos != string::npos) {
         result = result.substr(0, endPos);
@@ -112,23 +122,32 @@ string decryptMessage(const vector<vector<int>>& square, string& cipher, int n) 
     return result;
 }
 
+void magicSquare(char action, string message) {
+    if (action == '1') {
+        string cipher = "";
+        message += "##";
+        int n = defOfOrder(message);
 
-/*
-int main() {
-    string cipher = "";
-    string message = "Hello World!, Fuck you bitch, i am stuck, Your Mom is good girl?";
-    message += "##";
-    int n = defOfOrder(message);
+        vector<vector<int>> sq, fill;
+        sq = createSquare(sq, n);
+        fill = filligTheSquare(sq, n);
+        cipher = encryptMessage(fill, message, n);
+        cout << "Ваше зашифрованное сообщение: " << cipher << endl;
+        cout << "Построенный магический квадрат:" << endl;
+        printMatrix(sq);
 
-    vector<vector<int>> sq;
-    sq = createSquare(sq, n);
-    sq = filligTheSquare(sq, n);
-    cipher = encryptMessage(sq, message, n);
-    
-    cout << cipher << endl;
+        recToFile(cipher, action);
+        system("cls");
+    }
+    else {
+        int n = defOfOrder(message);
+        vector<vector<int>> sq, fill;
+        sq = createSquare(sq, n);
+        fill = filligTheSquare(sq, n);
+        string result = decryptMessage(fill, message, n); 
+        cout << "Ваше расшифрованное сообщение: " << result << endl;
 
-    string result = decryptMessage(sq, cipher, n);
-    cout << result << endl;
+        recToFile(result, action);
+        system("cls");
+    }
 }
-
-*/

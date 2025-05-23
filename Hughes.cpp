@@ -96,11 +96,11 @@ int64_t powmod(int64_t a, int64_t x, int64_t p) {
 }
 
 bool primeNum(int64_t modal) {
-    if (modal <= 1) return false; // Отрицательные числа, 0 и 1 — не простые
+    if (modal <= 1) return false; // отрицательные числа, 0 и 1 — не простые
 
     if (modal <= 3) return true; // 2 и 3 — простые числа
 
-    if (modal % 2 == 0 || modal % 3 == 0) return false; // Проверка на делимость на 2 и 3
+    if (modal % 2 == 0 || modal % 3 == 0) return false; // проверка на делимость на 2 и 3
         
     for (int64_t i = 5; i * i <= modal; i += 6) {
         if (modal % i == 0 || modal % (i + 2) == 0) return false;
@@ -133,36 +133,6 @@ string decrypt(int64_t bobeKey, vector<int64_t> mesToDecrypt) {
     return result;
 }
 
-void recToFile(const string& message, char action) {
-    cout << "+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+" << endl;
-    cout << "Хотите записать результат в файл?" << endl;
-    cout << "1. Да, записать результат в файл" << endl;
-    cout << "2. Продолжить без записи" << endl;
-    cout << "+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+" << endl;
-
-    int command;
-    while (true) {
-        command = _getch();
-        if (command == '1') { // клавиша '1'
-            string filename = (action == '1') ? "encryptMessage.txt" : "decryptMessage.txt";
-
-            ofstream file(filename, ios::trunc); // перезаписываем файл
-            if (!file.is_open()) {
-                cerr << "Ошибка: не удалось открыть файл для записи!" << endl;
-                return;
-            }
-
-            file << message;  // без лишнего пробела или \n
-            file.close();
-            cout << "Результат успешно записан в файл: " << filename << endl;
-            break;
-        }
-        else if (command == '2') { // клавиша '2'
-            break;
-        }
-    }
-}
-
 void hughes(char action, const string& message) {
     random_device rd;
     mt19937 gen(rd());
@@ -187,15 +157,13 @@ void hughes(char action, const string& message) {
         cout << "Ваше зашифрованное сообщение: " << result << endl;
 
         recToFile(result, action);
-
-        system("cls");
     } 
     else {
         cout << "Введите простое число - основание степени: ";
         int64_t num = inputValue(1); //вводимый параметр обозначает для чего проверка (тут для основания степени)
         system("cls");
 
-        cout << "Введите простое число - модуль (не равный основанию степени): ";
+        cout << "Введите простое число - модуль, не равный основанию степени: ";
         int64_t modal = inputValue(num); //проверка модуля
         system("cls");
 
@@ -223,7 +191,5 @@ void hughes(char action, const string& message) {
         cout << "Ваше расшифрованное сообщение: " << result << endl;
 
         recToFile(result, action);
-
-        system("cls");
     }
 }

@@ -16,6 +16,7 @@ unsigned int simpleHash(const string& str) {
 }
 
 int main() {
+	setlocale(LC_ALL, "ru");
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 
@@ -54,11 +55,11 @@ int main() {
 		if (method == '1') {
 			hughes(action, message);
 		}
-        //else if (method == '2') {
-			//callCaesar(action, message);
-
-		//}else {
-			//callPlayfair(action, message);
-		//}
+		else if (method == '2') {
+			codeWord(action, message);
+		}
+        else if (method == '3') {
+			magicSquare(action, message);
+		}
 	}
 }
