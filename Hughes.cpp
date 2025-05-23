@@ -63,19 +63,27 @@ int64_t NOD(int64_t a, int64_t p) {
 }
 
 int64_t algoEuclid(int64_t a, int64_t m) {
-    int64_t x1 = 1, x2 = 0;
-
-    while (m != 0) {
-        int64_t q = a / m;
-        int64_t r = a % m;
-
-        int64_t tempx = x1;
-        x1 = x2;
-        x2 = tempx - q * x2;
-
-        a = m;
-        m = r;
+    if (NOD(a, m) != 1) {
+        return 0;
     }
+    
+    int64_t m0 = m, t, q;
+    int64_t x0 = 0, x1 = 1;
+
+    if (m == 1) return 0;
+
+    while (a > 1) {
+        q = a / m;
+        t = m;
+
+        m = a % m, a = t;
+        t = x0;
+
+        x0 = x1 - q * x0;
+        x1 = t;
+    }
+
+    if (x1 < 0) x1 += m0;
 
     return x1;
 }
@@ -170,8 +178,12 @@ void hughes(char action, const string& message) {
         cout << "¬ведите натуральное число-степень: ";
         int64_t degreeAlice = inputValue(0);
 
-        uniform_int_distribution<int64_t> dist(2, 999);
+        uniform_int_distribution<int64_t> dist(2, modal - 2);
+        
         int64_t degBob = dist(gen);
+        while (NOD(degBob, modal - 1) != 1) {
+            degBob = dist(gen);
+        }
 
         int64_t bobNumfirst = powmod(num, degBob, modal); // вычисление промежуточного числа Ѕоба
         int64_t aliceNum = powmod(bobNumfirst, degreeAlice, modal); // вычисление промежуточного числа јлисы
