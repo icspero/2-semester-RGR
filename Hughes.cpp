@@ -180,14 +180,14 @@ void hughes(char action, const string& message) {
 
         uniform_int_distribution<int64_t> dist(2, modal - 2);
         
-        int64_t degBob = dist(gen);
-        while (NOD(degBob, modal - 1) != 1) {
-            degBob = dist(gen);
+        int64_t degreeBob = dist(gen);
+        while (NOD(degreeBob, modal - 1) != 1) {
+            degreeBob = dist(gen);
         }
 
-        int64_t bobNumfirst = powmod(num, degBob, modal); // вычисление промежуточного числа Боба
+        int64_t bobNumfirst = powmod(num, degreeBob, modal); // вычисление промежуточного числа Боба
         int64_t aliceNum = powmod(bobNumfirst, degreeAlice, modal); // вычисление промежуточного числа Алисы
-        int64_t bobNumsecond = algoEuclid(degBob, modal - 1); // вычисление второго промежуточного числа Боба по алгоритму Евклида
+        int64_t bobNumsecond = algoEuclid(degreeBob, modal - 1); // вычисление второго промежуточного числа Боба по алгоритму Евклида
         int64_t bobeKey = powmod(aliceNum, bobNumsecond, modal); // вычиление закрытого ключа Боба
 
         system("cls");

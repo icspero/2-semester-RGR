@@ -13,7 +13,7 @@
                 "CodeWord.cpp",
                 "MagicSquare.cpp",
                 "-o",
-                "${fileDirname}\\Launch.exe"
+                "${fileDirname}\\Shifrator.exe"
             ],
             "options": {
                 "cwd": "${fileDirname}"

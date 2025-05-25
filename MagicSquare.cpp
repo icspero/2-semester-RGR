@@ -125,9 +125,9 @@ string decryptMessage(const vector<vector<int>>& square, string& cipher, int n) 
 void magicSquare(char action, string message) {
     if (action == '1') {
         string cipher = "";
-        message += "##";
         int n = defOfOrder(message);
-
+        message += "##";
+        
         vector<vector<int>> sq, fill;
         sq = createSquare(sq, n);
         fill = filligTheSquare(sq, n);
