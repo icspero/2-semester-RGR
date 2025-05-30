@@ -5,7 +5,7 @@
 int defOfOrder(string& mes) { 
     int size_m = mes.size();
     double n = sqrt(size_m);
-    int res = static_cast<int>(ceil(n));
+    int res = static_cast<int>(ceil(n)); // ceil округляет до ближайшего целого
 
     if (res % 2 == 0) { // делаем квадрат нечётным
         res += 1;

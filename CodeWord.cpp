@@ -2,7 +2,7 @@
 #include "startMenu.h"
 
 bool isRus(char ch) {
-    unsigned char uch = static_cast<unsigned char>(ch);
+    unsigned char uch = static_cast<unsigned char>(ch); // приводим к типу unsigned char, чтобы корректно работать с кодом символа
     // «аглавные ј - я: 0xC0 - 0xDF
     // —трочные а - €: 0xE0 - 0xFF
     // ®: 0xA8, Є: 0xB8
@@ -11,6 +11,7 @@ bool isRus(char ch) {
            uch == 0xA8 || uch == 0xB8;
 }
 
+// ƒобавл€ем кодовое слово в алфавит
 string addCodeWord(string codeWord, string alphabet) {
     string newWord = "";
     
@@ -24,14 +25,15 @@ string addCodeWord(string codeWord, string alphabet) {
     return newWord;
 }
 
+// ”дал€ем дубликаты символов
 string remDup(string word) {
     string newWord = "";
 
     for (int i = 0; i < word.size(); i++) {
-        if (newWord.find(word[i]) != string::npos) {
+        if (newWord.find(word[i]) != string::npos) { // если буква уже есть, то пропускаем
             continue;
         }
-        if (!isalpha(word[i]) && !isRus(word[i])) {
+        if (!isalpha(word[i]) && !isRus(word[i])) { // если не буква и не русска€ буква, то пропускаем
             continue;
         }
         newWord += word[i];
@@ -87,7 +89,8 @@ string decryptedMess(const string& encMess, const string& alpha, const string& n
 }
 
 void codeWord(char action, const string& message) {
-    string alphabet = "–р—с“т”у‘ф’х÷ц„чЎшўщЏъџы№ьЁэёюя€aAbBcCdDeEfFgGhHiIjJkKlLmMајбЅв¬г√дƒе≈Є®ж∆з«и»й… кЋлћмЌнќоѕпnNoOpPqQrRsStTuUvVwWxXyYzZ";
+    string alphabet = "јЅ¬√ƒ≈®∆«»… ЋћЌќѕ–—“”‘’÷„ЎўЏџ№ЁёяабвгдеЄжзийклмнопрстуфхцчшщъыьэю€ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+;
     if (action == '1') {
         char method;
         string codeWord;

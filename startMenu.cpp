@@ -12,8 +12,8 @@ char mainMenu() {
 
 	int command;
 	while (true) {
-		command = _getch();
-		if (command >= 49 && command <= 52) { // в случае получения команды заканчиваем работу
+		command = _getch(); // считывает символ с клавиатуры
+		if (command >= 49 && command <= 52) { // в случае получения команды заканчиваем работу (49-52: '1', '2', '3', '4')
 			break;
 		}
 	}

@@ -17,6 +17,7 @@ unsigned int simpleHash(const string& str) {
 
 int main() {
 	setlocale(LC_ALL, "ru");
+	// для работы с русским языком в консоли
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 
