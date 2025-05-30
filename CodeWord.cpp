@@ -89,8 +89,16 @@ string decryptedMess(const string& encMess, const string& alpha, const string& n
 }
 
 void codeWord(char action, const string& message) {
-    string alphabet = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюяABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-;
+    string alphabet;
+    for (char c = -64; c <= -59; ++c) alphabet += c; // русские заглавные: А–Е, А(0xC0 = -64) to Е(0xC5 = -59)
+    alphabet += char(-88); // Ё (0xA8 = -88)
+    for (char c = -58; c <= -33; ++c) alphabet += c; // русские заглавные: Ж–Я
+    for (char c = -32; c <= -27; ++c) alphabet += c; // русские строчные: а–е, а(0xE0 = -32) to е(0xE5 = -27)
+    alphabet += char(-72); // ё (0xB8 = -72)
+    for (char c = -26; c <= -1; ++c) alphabet += c; // русские строчные: ж–я
+    for (char c = 'A'; c <= 'Z'; ++c) alphabet += c; // английские заглавные
+    for (char c = 'a'; c <= 'z'; ++c) alphabet += c; // английские строчные
+
     if (action == '1') {
         char method;
         string codeWord;
